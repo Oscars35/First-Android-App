@@ -10,13 +10,12 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import com.example.miniactivitat2.databinding.ActivityMainBinding
 import org.w3c.dom.Text
 
 class MainActivity : AppCompatActivity() {
 
-    private var editTextByeMessage: EditText? = null
-    private var editTextRepetitions: EditText? = null
-    private var mainTextView: TextView? = null
+    private lateinit var binding: ActivityMainBinding
 
     //Launcher for new activity (activityResult deprecated)
     private val getResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -27,16 +26,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding =  ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        editTextByeMessage = findViewById<EditText>(R.id.enterMessageET)
-        editTextRepetitions = findViewById<EditText>(R.id.enterRepetitionsET)
-        mainTextView = findViewById<TextView>(R.id.textView2)
-
-        val goByeScreenButton = findViewById<Button>(R.id.goToByeScreenBT)
-        goByeScreenButton.setOnClickListener {
-            if (TextUtils.isEmpty(editTextByeMessage!!.text.toString()))
-                editTextByeMessage!!.error = "No message was entered"
+        binding.goToByeScreenBT.setOnClickListener {
+            if (TextUtils.isEmpty(binding.enterMessageET.text))
+                binding.enterMessageET.error = "No message was entered"
             else
                 openActivity2()
         }
@@ -45,24 +40,24 @@ class MainActivity : AppCompatActivity() {
     //Function that opens activity 2 and checks the number of repetitions. (Default repetitions 1)
     private fun openActivity2() {
         checkForEmptyRepetitions()
-        val finalMessage = getFinalMessage(editTextByeMessage!!.text.toString(), editTextRepetitions!!.text.toString().toInt())
+        val finalMessage = getFinalMessage(binding.enterMessageET.text.toString(), binding.enterRepetitionsET.text.toString().toInt())
         val intent = Intent(this, Activity2::class.java)
-        editTextByeMessage!!.text.clear()
-        editTextRepetitions!!.text.clear()
+        binding.enterMessageET.text.clear()
+        binding.enterRepetitionsET.text.clear()
         intent.putExtra("message", finalMessage)
         getResult.launch(intent)
     }
 
     //Establishing default repetitions to 1
     private fun checkForEmptyRepetitions() {
-        if(TextUtils.isEmpty(editTextRepetitions!!.text.toString()))
-            editTextRepetitions!!.setText("1")
+        if(TextUtils.isEmpty(binding.enterRepetitionsET.text.toString()))
+            binding.enterRepetitionsET.setText("1")
     }
 
 
     //Changing text view with the text received from activity2
     private fun changeTextView(data: Intent?) {
-        mainTextView!!.text = data!!.getStringExtra("messageFromAct2").toString()
+        binding.textView2.text = data!!.getStringExtra("messageFromAct2").toString()
     }
 
     //Getting final message

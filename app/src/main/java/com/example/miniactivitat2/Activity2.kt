@@ -7,14 +7,20 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.example.miniactivitat2.databinding.Activity2Binding
+import com.example.miniactivitat2.databinding.ActivityMainBinding
 
 class Activity2 : AppCompatActivity() {
+
+    private lateinit var binding: Activity2Binding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_2)
-        val goMainScreenButton = findViewById<Button>(R.id.activity2Button)
+        binding = Activity2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         getMessageFromMain()
-        goMainScreenButton.setOnClickListener {
+        binding.activity2Button.setOnClickListener {
             goBackToMainActivity()
         }
     }
@@ -22,8 +28,7 @@ class Activity2 : AppCompatActivity() {
     //Function that gets the message from activity_main
     private fun getMessageFromMain() {
         val message = intent.getStringExtra("message")
-        val textView = findViewById<TextView>(R.id.textViewActivity2)
-        textView.text = message
+        binding.textViewActivity2.text = message
         intent.putExtra("messageFromAct2", message)
         setResult(Activity.RESULT_OK, intent)
     }
