@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MiniAct2</string>
+    <string name="mainTV">Hello world</string>
+    <string name="numberRepetitions">Enter the number of repetitions!</string>
+    <string name="byeMessage">Enter the bye message!</string>
+    <string name="byeMessageET">Bye message here</string>
+    <string name="byeScreenButtonText">Go to bye screen</string>
+    <string name="activity2TV">Hello world</string>
+    <string name="activity2Button">Go back</string>
+</resources>
